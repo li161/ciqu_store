@@ -18,20 +18,20 @@ const pieces:Furniture[]=[
 ];
 const roomColors=['#d8cbbb','#d9c7b5','#dfd0bd','#cfc5b4','#433d35','#d9c8b6'];
 
-function Chair({wood,phase}:{wood:string;phase:number}){return <group scale={phase===0?.72:1}>
+function Chair({wood,phase}:{wood:string;phase:number}){return <group scale={0.72+phase*0.28}>
   {[[-.42,.42], [.42,.42],[-.42,-.42],[.42,-.42]].map(([x,z],i)=><mesh key={i} position={[x,-.42,z]} castShadow><cylinderGeometry args={[.045,.055,.86,12]}/><meshStandardMaterial color={wood} roughness={.62}/></mesh>)}
   <RoundedBox args={[1.05,.13,.94]} radius={.055} position={[0,.05,0]} castShadow><meshStandardMaterial color={wood} roughness={.65}/></RoundedBox>
   <RoundedBox args={[1.02,.95,.12]} radius={.055} position={[0,.58,-.42]} castShadow><meshStandardMaterial color={wood} roughness={.62}/></RoundedBox>
   {[ -.31,.31 ].map(x=><mesh key={x} position={[x,.23,-.42]} castShadow><boxGeometry args={[.08,.52,.15]}/><meshStandardMaterial color={wood}/></mesh>)}
 </group>}
-function Dresser({wood,phase}:{wood:string;phase:number}){return <group scale={phase===0?.72:1}>
+function Dresser({wood,phase}:{wood:string;phase:number}){return <group scale={0.72+phase*0.28}>
   <RoundedBox args={[1.55,1.05,.72]} radius={.035} position={[0,.05,0]} castShadow><meshStandardMaterial color={wood} roughness={.45}/></RoundedBox>
-  {[0,1,2].map((r)=><group key={r} position={[0,.42-r*.34,.371]}><RoundedBox args={[1.38,.27,.045]} radius={.018} castShadow><meshStandardMaterial color={wood} roughness={.36}/></RoundedBox>{[-.43,.43].map(x=><mesh key={x} position={[x,0,.04]}><sphereGeometry args={[.035,16,12]}/><meshStandardMaterial color="#b78b52" metalness={.72} roughness={.28}/></mesh>)}</group>)}
+  {[0,1,2].map((r)=><group key={r} position={[0,.42-r*.34,.371+Math.max(0,phase-(r*.17+.12))*.34]}><RoundedBox args={[1.38,.27,.045]} radius={.018} castShadow><meshStandardMaterial color={wood} roughness={.36}/></RoundedBox>{[-.43,.43].map(x=><mesh key={x} position={[x,0,.04]}><sphereGeometry args={[.035,16,12]}/><meshStandardMaterial color="#b78b52" metalness={.72} roughness={.28}/></mesh>)}</group>)}
   {[-.61,.61].map(x=><mesh key={x} position={[x,-.57,0]}><boxGeometry args={[.12,.18,.58]}/><meshStandardMaterial color={wood}/></mesh>)}
 </group>}
 function Table({wood,phase}:{wood:string;phase:number}){return <group scale={phase===0?.62:1}>
   <RoundedBox args={[1.7,.12,1.08]} radius={.045} position={[0,.63,0]} castShadow><meshStandardMaterial color={wood} roughness={.48}/></RoundedBox>
-  {[[-.68,-.38],[-.68,.38],[.68,-.38],[.68,.38]].map(([x,z],i)=><group key={i} position={[x,.23,z]} rotation={[0,0,i%2?.08:-.08]}><mesh castShadow><boxGeometry args={[.09,.72,.09]}/><meshStandardMaterial color={wood}/></mesh></group>)}
+  {[[-.68,-.38],[-.68,.38],[.68,-.38],[.68,.38]].map(([x,z],i)=><group key={i} position={[x,.23,z]} rotation={[0,0,(i%2?.08:-.08)*(1-phase)]}><mesh castShadow><boxGeometry args={[.09,.72,.09]}/><meshStandardMaterial color={wood}/></mesh></group>)}
   <mesh position={[0,.25,0]}><boxGeometry args={[1.38,.07,.07]}/><meshStandardMaterial color={wood}/></mesh>
 </group>}
 function Shelf({wood,phase}:{wood:string;phase:number}){return <group scale={phase===0?.6:1}>
@@ -43,13 +43,13 @@ function Lamp({wood,phase}:{wood:string;phase:number}){return <group scale={phas
   <mesh position={[0,-.42,0]} castShadow><cylinderGeometry args={[.31,.36,.09,48]}/><meshStandardMaterial color={wood} metalness={.7} roughness={.25}/></mesh>
   <mesh position={[0,.28,0]} castShadow><cylinderGeometry args={[.035,.045,1.35,16]}/><meshStandardMaterial color={wood} metalness={.72} roughness={.25}/></mesh>
   <mesh position={[0,.99,0]} castShadow><cylinderGeometry args={[.18,.36,.42,48,1,true]}/><meshStandardMaterial color="#e8d8bd" roughness={.88} side={THREE.DoubleSide}/></mesh>
-  <pointLight position={[0,.92,0]} intensity={phase>0?2.2:.05} color="#ffd59a" distance={5}/>
+  <pointLight position={[0,.92,0]} intensity={0.05+phase*2.15} color="#ffd59a" distance={5}/>
 </group>}
 function Sofa({wood,phase}:{wood:string;phase:number}){return <group scale={phase===0?.62:1}>
   <RoundedBox args={[1.8,.35,.82]} radius={.14} position={[0,-.05,0]} castShadow><meshStandardMaterial color={wood} roughness={.94}/></RoundedBox>
   <RoundedBox args={[1.8,.72,.25]} radius={.13} position={[0,.43,-.31]} castShadow><meshStandardMaterial color={wood} roughness={.95}/></RoundedBox>
   {[-.84,.84].map(x=><RoundedBox key={x} args={[.25,.62,.86]} radius={.11} position={[x,.18,0]} castShadow><meshStandardMaterial color={wood} roughness={.94}/></RoundedBox>)}
-  {[-.43,.43].map(x=><RoundedBox key={x} args={[.76,.2,.57]} radius={.12} position={[x,.2,.08]} castShadow><meshStandardMaterial color="#e6d8c5" roughness={.98}/></RoundedBox>)}
+  {[-.43,.43].map(x=><RoundedBox key={x} args={[.76,.2,.57]} radius={.12} position={[x,.2+phase*.025,.08]} castShadow><meshStandardMaterial color="#e6d8c5" roughness={.98}/></RoundedBox>)}
   {[-.68,.68].map(x=><mesh key={x} position={[x,-.36,.2]}><cylinderGeometry args={[.045,.05,.22,12]}/><meshStandardMaterial color="#654d3b"/></mesh>)}
 </group>}
 
@@ -83,7 +83,7 @@ function Loader(){const {progress}=useProgress();return <div className="loader">
 export default function App(){
  const [index,setIndex]=useState(0),[phase,setPhase]=useState(0),[details,setDetails]=useState(false),[sound,setSound]=useState(false),[rotation,setRotation]=useState(0),[busy,setBusy]=useState(false),[intro,setIntro]=useState(true);
  const item=pieces[index],next=pieces[(index+1)%pieces.length],timeline=useRef<gsap.core.Timeline|null>(null),touchY=useRef(0),wheelLock=useRef(false);
- const activate=()=>{if(busy||phase===1)return;setBusy(true);timeline.current?.kill();setPhase(0);timeline.current=gsap.timeline({onUpdate:()=>{},onComplete:()=>{setPhase(1);setBusy(false);}}).to({}, {duration:.3}).to({}, {duration:1.55,onUpdate:function(){setPhase(.15+this.progress()*.85);}});};
+ const activate=()=>{if(busy||phase===1)return;setBusy(true);setRotation(r=>r+Math.PI*2);timeline.current?.kill();setPhase(0);timeline.current=gsap.timeline({onUpdate:()=>{},onComplete:()=>{setPhase(1);setBusy(false);}}).to({}, {duration:.3}).to({}, {duration:1.55,onUpdate:function(){setPhase(.15+this.progress()*.85);}});};
  const switchItem=(dir:number)=>{if(busy)return;setBusy(true);timeline.current?.kill();gsap.timeline({onComplete:()=>{setIndex((i)=>(i+dir+pieces.length)%pieces.length);setPhase(0);setRotation(0);setDetails(false);setBusy(false);}}).to('.scene-wipe',{opacity:1,duration:.45,ease:'power2.in'}).to('.scene-wipe',{opacity:0,duration:.8,ease:'power2.out'});};
  useEffect(()=>{const onWheel=(e:WheelEvent)=>{if(Math.abs(e.deltaY)<12||wheelLock.current)return;e.preventDefault();wheelLock.current=true;setTimeout(()=>wheelLock.current=false,1250);switchItem(e.deltaY>0?1:-1);};window.addEventListener('wheel',onWheel,{passive:false});return()=>window.removeEventListener('wheel',onWheel);},[busy]);
  useEffect(()=>{const onKey=(e:KeyboardEvent)=>{if(e.key==='ArrowDown'||e.key==='ArrowRight')switchItem(1);if(e.key==='ArrowUp'||e.key==='ArrowLeft')switchItem(-1);if(e.key==='Enter')activate();if(e.key==='Escape')setDetails(false);};window.addEventListener('keydown',onKey);return()=>window.removeEventListener('keydown',onKey);});
